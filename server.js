@@ -1,45 +1,60 @@
-// Setup
-var express = require('express');
-var app = express();
-var port = process.env.PORT || 8000;
-var router = express.Router();
+const http = require('http');
+const url = require('url');
 
-// Routing
-router.get('/', (req, res) => {
-    res.status(200);
-    res.type('text/html');
-    res.send(
-        'Your language is: ' 
-        + req.headers["accept-language"] 
-        + '<br /> You sent a: ' 
-        + req.method 
-        + ' request');
-});
+http.createServer((request, response) => {
+    
+    const parsed = url.parse(request.url, true);
+    const pathName = parsed.pathname;
 
-router.post('/', (req, res) => {
-    res.status(200);
-    if (req.query.postVar) {
-        res.type('text/html');
-        res.send('Your POST variable value: ' + req.query.postVar);        
+    request.on('error', (err) => {
+        console.error(err);
+        response.statusCode = 400;
+        response.end();
+    });
+    
+    response.on('error', (err) => {
+        console.error(err);
+    });
+    
+    if (request.method === 'POST' && pathName === '/') {     
+        
+        if (parsed.query.postVar) {
+            response.statusCode = 200;
+            response.setHeader('Content-Type', 'text/html; charset=utf-8');
+            response.write(
+                'Your POST variable value: '
+                + parsed.query.postVar
+            );
+            response.end();
+        } else {
+            response.statusCode = 400;
+            response.setHeader('Content-Type', 'text/html; charset=utf-8');
+            response.write('Please specify a postVar variable.');
+            response.end();
+        }
+    
+    } else if (request.method === 'GET' && pathName === '/') {
+        
+        response.statusCode = 200;
+        response.setHeader('Content-Type', 'text/html; charset=utf-8');
+        response.write(
+            'Your language is: '
+            + request.headers['accept-language'] +
+            '<br /> You sent a: '
+            + request.method
+        );
+        response.end();
+   
+    } else if (request.method !== 'GET' && request.method !== 'POST' ) {
+    
+        response.statusCode = 405;
+        response.end();
+    
     } else {
-        res.type('text/html');
-        res.send('Please specify a postVar variable.');
+   
+        response.statusCode = 404;
+        response.end();
+    
     }
-});
 
-// Error handling
-router.get('*', (req, res) => {
-   res.status(404);
-   res.send('Not found');
-});
-
-router.all('*', (req, res) => {
-    res.status(405);
-    res.send('Method not allowed');
- });
-
-// Register routing
-app.use(router);
-
-// Start the server
-app.listen(port);
+}).listen(8000);
