@@ -28,12 +28,12 @@ router.post('/', (req, res) => {
 });
 
 // Error handling
-router.get((req, res) => {
+router.get('*', (req, res) => {
    res.status(404);
    res.send('Not found');
 });
 
-router.all((req, res) => {
+router.all('*', (req, res) => {
     res.status(405);
     res.send('Method not allowed');
  });
