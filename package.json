@@ -1,0 +1,28 @@
+{
+  "name": "node-backend-exercise",
+  "version": "1.0.0",
+  "description": "Simple node backend exercise",
+  "main": "myfirst.js",
+  "dependencies": {
+    "express": "^4.16.3",
+    "node": "^10.7.0"
+  },
+  "devDependencies": {
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb-base": "^13.0.0",
+    "eslint-plugin-import": "^2.13.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/philipecosia/node-backend-exercise.git"
+  },
+  "author": "Philip Baumann",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/philipecosia/node-backend-exercise/issues"
+  },
+  "homepage": "https://github.com/philipecosia/node-backend-exercise#readme"
+}
