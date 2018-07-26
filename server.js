@@ -30,12 +30,12 @@ router.post('/', (req, res) => {
 // Error handling
 router.get((req, res) => {
    res.status(404);
-   res.end;
+   res.send('Not found');
 });
 
 router.all((req, res) => {
     res.status(405);
-    res.end;
+    res.send('Method not allowed');
  });
 
 // Register routing
